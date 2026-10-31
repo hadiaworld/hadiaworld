@@ -1,0 +1,10 @@
+{
+  "name": "HadiaWorld",
+  "short_name": "HadiaWorld",
+  "description": "Conseils, motivation et quiz pour avancer chaque jour.",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#f7f5ef",
+  "theme_color": "#101b35",
+  "icons": [{"src":"icon.svg","sizes":"any","type":"image/svg+xml","purpose":"any"}]
+}

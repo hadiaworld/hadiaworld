@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#101b35">
+<meta name="description" content="HadiaWorld : conseils, motivation et quiz pour apprendre et avancer chaque jour.">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icon.svg" type="image/svg+xml">
+<title>HadiaWorld</title>
+<style>
+:root{--navy:#101b35;--gold:#d8b45a;--paper:#f7f5ef;--ink:#20283a}
+*{box-sizing:border-box}body{margin:0;background:var(--paper);color:var(--ink);font:16px system-ui,Arial,sans-serif}
+header{background:var(--navy);color:white;padding:28px 20px 24px;text-align:center}
+.logo{color:var(--gold);font-size:13px;letter-spacing:4px;font-weight:700}
+h1{margin:8px 0;font-size:32px}header p{margin:0;color:#e7e8ed}
+nav{display:flex;justify-content:center;gap:8px;flex-wrap:wrap;padding:12px;background:white;position:sticky;top:0;box-shadow:0 2px 8px #0001}
+nav button,.action{border:0;border-radius:22px;padding:10px 15px;background:var(--navy);color:white;font-weight:600}
+nav button[aria-selected=true]{background:var(--gold);color:var(--navy)}
+main{max-width:760px;margin:24px auto;padding:0 16px}
+.card{background:white;border:1px solid #e8e3d7;border-radius:18px;padding:20px;margin:14px 0;box-shadow:0 5px 18px #18213b0a}
+h2{color:var(--navy);margin-top:0}.gold{color:#9a741c}.muted{color:#687083;line-height:1.6}
+.ad{border:1px dashed #c7bd9e;background:#fbf8ef;text-align:center;padding:18px;border-radius:12px;color:#766d57;font-size:13px}
+.tab{display:none}.tab.active{display:block}
+button{cursor:pointer}button:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
+footer{text-align:center;padding:30px;color:#73798a;font-size:13px}
+input{padding:12px;border:1px solid #ccc;border-radius:10px;width:100%;margin:8px 0}
+</style>
+</head>
+<body>
+<header><div class="logo">HADIAWORLD</div><h1>Bienvenue dans ton univers</h1><p>Apprendre, s'inspirer et avancer chaque jour.</p></header>
+<nav aria-label="Navigation">
+<button data-tab="home" aria-selected="true">Accueil</button>
+<button data-tab="tips" aria-selected="false">Conseils</button>
+<button data-tab="quiz" aria-selected="false">Quiz</button>
+<button data-tab="profile" aria-selected="false">Profil</button>
+</nav>
+<main>
+<section id="home" class="tab active">
+<div class="card"><h2>Un petit pas chaque jour ✨</h2><p class="muted">HadiaWorld rassemble des idées pratiques autour du bien-être, de la motivation et de l'entrepreneuriat numérique.</p><p class="gold"><strong>Ta progression commence aujourd'hui.</strong></p></div>
+<div class="ad">Espace réservé à une publicité (aucune publicité active pour le moment).</div>
+</section>
+<section id="tips" class="tab">
+<div class="card"><h2>Conseil du jour</h2><p id="tip" class="muted">Fixe-toi un petit objectif réalisable aujourd'hui, puis célèbre le fait de l'avoir accompli.</p><button class="action" id="saveTip">Enregistrer ce conseil</button><p id="saved" class="gold" aria-live="polite"></p></div>
+<div class="card"><h2>Bien-être</h2><p class="muted">Prends quelques minutes pour respirer, boire de l'eau et faire une pause loin des écrans.</p></div>
+<div class="card"><h2>Marketing digital</h2><p class="muted">Avant de vendre, apprends à comprendre le besoin réel des personnes que tu souhaites aider.</p></div>
+</section>
+<section id="quiz" class="tab">
+<div class="card"><h2>Petit quiz</h2><p>Quelle est une bonne première étape pour développer une activité en ligne ?</p>
+<label><input type="radio" name="q" value="a"> Publier sans connaître son public</label>
+<label><input type="radio" name="q" value="b"> Identifier les besoins de son public</label>
+<label><input type="radio" name="q" value="c"> Copier toutes les autres boutiques</label>
+<button class="action" id="check">Vérifier ma réponse</button><p id="answer" aria-live="polite"></p></div>
+</section>
+<section id="profile" class="tab">
+<div class="card"><h2>Mon espace</h2><p class="muted">Cette première version est une maquette locale. Elle ne crée pas encore de compte utilisateur.</p><label for="nickname">Ton prénom (facultatif)</label><input id="nickname" placeholder="Écris ton prénom"><button class="action" id="greet">Valider</button><p id="greeting" class="gold" aria-live="polite"></p></div>
+</section>
+</main>
+<footer>HadiaWorld · Grandir à son rythme</footer>
+<script>
+document.querySelectorAll('nav button').forEach(b=>b.addEventListener('click',()=>{
+ document.querySelectorAll('.tab').forEach(s=>s.classList.remove('active'));
+ document.querySelectorAll('nav button').forEach(x=>x.setAttribute('aria-selected','false'));
+ document.getElementById(b.dataset.tab).classList.add('active');b.setAttribute('aria-selected','true');
+}));
+document.getElementById('saveTip').addEventListener('click',()=>{localStorage.setItem('hadiaworld-tip',document.getElementById('tip').textContent);document.getElementById('saved').textContent='Conseil enregistré sur cet appareil ✓';});
+document.getElementById('check').addEventListener('click',()=>{const a=document.querySelector('input[name=q]:checked');document.getElementById('answer').textContent=!a?'Choisis une réponse.':a.value==='b'?'Bonne réponse ! 🎉':'Essaie encore : pense d’abord aux besoins du public.';});
+document.getElementById('greet').addEventListener('click',()=>{const n=document.getElementById('nickname').value.trim();document.getElementById('greeting').textContent=n?'Bienvenue, '+n+' !':'Bienvenue dans HadiaWorld !';});
+if('serviceWorker' in navigator && location.protocol.startsWith('http')) navigator.serviceWorker.register('./sw.js').catch(()=>{});
+</script>
+</body></html>
